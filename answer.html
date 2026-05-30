@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>解答・解説 ― 円と接線</title>
+<style>
+  @media print {
+    body { margin: 0; }
+    .no-print { display: none; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: #fff;
+    color: #1a1a18;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 36px 40px 48px; }
+  .sheet-header { border-bottom: 2px solid #378ADD; padding-bottom: 14px; margin-bottom: 32px; }
+  .sheet-title { font-size: 20px; font-weight: 700; color: #042C53; margin-bottom: 4px; }
+  .sheet-sub { font-size: 13px; color: #5F5E5A; }
+  .problem { margin-bottom: 48px; }
+  .problem-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+  .problem-num { font-size: 17px; font-weight: 700; color: #0C447C; }
+  .tag { font-size: 12px; padding: 2px 9px; border-radius: 6px; font-weight: 600; }
+  .tag-blue  { background: #E6F1FB; color: #185FA5; }
+  .tag-amber { background: #FAEEDA; color: #633806; }
+  .tag-green { background: #EAF3DE; color: #3B6D11; }
+  .answer-box { background: #EAF3DE; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; }
+  .answer-box .lbl { font-size: 12px; font-weight: 700; color: #3B6D11; margin-bottom: 8px; }
+  .answer-box p { font-size: 14px; color: #173404; margin-bottom: 4px; }
+  .steps-block { background: #F7F6F2; border-left: 3px solid #378ADD; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 14px; }
+  .steps-block .lbl { font-size: 12px; font-weight: 700; color: #185FA5; margin-bottom: 8px; }
+  .step { display: flex; gap: 10px; align-items: flex-start; margin: 6px 0; }
+  .step-num { min-width: 22px; height: 22px; border-radius: 50%; background: #378ADD; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .step p { font-size: 14px; margin: 0; }
+  .reason-block { background: #F7F6F2; border-left: 3px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 16px; }
+  .reason-block .lbl { font-size: 12px; font-weight: 700; color: #0F6E56; margin-bottom: 6px; }
+  .reason-block p { font-size: 13px; color: #5F5E5A; margin-bottom: 4px; }
+  .fig-area { margin: 16px 0; }
+  .divider { border: none; border-top: 1px solid #D3D1C7; margin: 40px 0; }
+  .print-btn { display: inline-block; margin-bottom: 24px; padding: 8px 20px; background: #378ADD; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-family: inherit; }
+  .print-btn:hover { background: #185FA5; }
+  .key { font-weight: 700; }
+  .legend { display: flex; gap: 20px; font-size: 12px; color: #5F5E5A; margin-bottom: 8px; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .leg-line { display: inline-block; width: 24px; height: 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <button class="print-btn no-print" onclick="window.print()">印刷 / PDFで保存</button>
+
+  <div class="sheet-header">
+    <div class="sheet-title">解答・解説 ― 円と接線</div>
+    <div class="sheet-sub">作図の跡（補助線・円弧）は赤、完成した接線は緑で示しています</div>
+  </div>
+
+  <!-- 凡例 -->
+  <div class="legend no-print">
+    <span><span class="leg-line" style="background:#E24B4A;border-top:2px dashed #E24B4A"></span> 作図の跡（補助）</span>
+    <span><span class="leg-line" style="background:#1D9E75"></span> 完成した接線</span>
+    <span><span class="leg-line" style="background:#B5D4F4;border-top:1px dashed #B5D4F4"></span> 半径（参考）</span>
+  </div>
+
+  <!-- 問1 解答 -->
+  <div class="problem">
+    <div class="problem-head">
+      <span class="problem-num">問1</span>
+      <span class="tag tag-blue">円上の点からの接線</span>
+      <span class="tag tag-green">解答</span>
+    </div>
+
+    <div class="fig-area">
+      <!--
+        計算値:
+        円O: 中心(240,140) 半径90
+        P = (308.9, 82.1)  ← 円周上 角度-40°
+        OP方向単位: (0.766, -0.643)
+        接線方向:   (0.643,  0.766)
+        A = P + 60*OP = (354.9, 43.6)
+        B = P - 60*OP = (263.0, 120.7)
+        円弧半径80 → h=52.9
+        Q(使う方) = P + 52.9*接線方向 = (343.0, 122.7)
+        接線: P ± 250*接線方向 → (148.2, -109.4) 〜 (469.6, 273.7)
+               SVG内で t=-190〜+250: 
+               端1: P-190*(0.643,0.766) = (186.7, -63.4) → y<0なのでクリップ
+               t=-170: P-170*(0.643,0.766) = (199.5, -47.9) → まだ外
+               接線とy=0の交点: ty = py + t*0.766 = 0 → t = -py/0.766 = -82.1/0.766 = -107.2
+               端1 = P + (-107.2)*(0.643,0.766) = (308.9-68.9, 82.1-82.1) = (240.0, 0.0)
+               端2 = P + 250*(0.643,0.766) = (469.6, 273.7) → SVG高さ280内 OK
+      -->
+      <svg viewBox="0 0 600 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="0.8" fill="#D3D1C7"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="600" height="280" fill="url(#dots)" rx="8"/>
+
+        <!-- 作図跡1: Pを中心とした円弧（半径60, OP上にA・Bをとる） -->
+        <circle cx="308.9" cy="82.1" r="60" fill="none" stroke="#E24B4A" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+
+        <!-- 作図跡2: A・Bを中心とした円弧（半径80） -->
+        <circle cx="354.9" cy="43.6" r="80" fill="none" stroke="#E24B4A" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+        <circle cx="263.0" cy="120.7" r="80" fill="none" stroke="#E24B4A" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+
+        <!-- 点A・B（作図で得られた点） -->
+        <circle cx="354.9" cy="43.6" r="3.5" fill="#E24B4A"/>
+        <text x="360" y="40" font-size="12" fill="#E24B4A" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">A</text>
+        <circle cx="263.0" cy="120.7" r="3.5" fill="#E24B4A"/>
+        <text x="252" y="134" font-size="12" fill="#E24B4A" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">B</text>
+
+        <!-- 交点Q -->
+        <circle cx="343.0" cy="122.7" r="3.5" fill="#E24B4A"/>
+        <text x="349" y="120" font-size="12" fill="#E24B4A" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">Q</text>
+
+        <!-- PQ補助線（点線）-->
+        <line x1="308.9" y1="82.1" x2="343.0" y2="122.7" stroke="#E24B4A" stroke-width="1" stroke-dasharray="3,3" opacity="0.8"/>
+
+        <!-- 半径OP（参考） -->
+        <line x1="240" y1="140" x2="308.9" y2="82.1" stroke="#B5D4F4" stroke-width="1.2" stroke-dasharray="5,4"/>
+
+        <!-- 円O -->
+        <circle cx="240" cy="140" r="90" fill="white" fill-opacity="0.6" stroke="#378ADD" stroke-width="1.8"/>
+        <circle cx="240" cy="140" r="3.5" fill="#185FA5"/>
+        <text x="248" y="136" font-size="14" fill="#0C447C" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">O</text>
+
+        <!-- 接線（緑・完成線） P-Q方向に延長 -->
+        <!-- 接線方向 (0.6428, 0.7660). 端1: y=0方向 t=-107.2 → (240.0, 0.0), 端2: t=+240 → (463, 266) -->
+        <line x1="240.0" y1="0" x2="464.6" y2="265.8" stroke="#1D9E75" stroke-width="2.2"/>
+
+        <!-- 直角マーク（接線とOPが直角） -->
+        <!-- 直角マークの向き: OP方向(0.766,-0.643)と接線方向(0.643,0.766) -->
+        <!-- P=(308.9,82.1)を基点に8px各方向 -->
+        <!-- p1 = P + 8*OP_unit = (315.0, 76.9) -->
+        <!-- p2 = P + 8*OP_unit + 8*tan_unit = (320.1, 83.0) -->
+        <!-- p3 = P + 8*tan_unit = (314.0, 88.2) -->
+        <polygon points="315.0,76.9 320.1,83.0 314.0,88.2 308.9,82.1" fill="none" stroke="#1D9E75" stroke-width="1.3"/>
+
+        <!-- 点P -->
+        <circle cx="308.9" cy="82.1" r="5" fill="#D85A30"/>
+        <text x="317" y="76" font-size="14" fill="#993C1D" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">P</text>
+
+        <!-- 接線ラベル -->
+        <text x="448" y="256" font-size="12" fill="#0F6E56" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">接線</text>
+      </svg>
+    </div>
+
+    <div class="answer-box">
+      <div class="lbl">考え方</div>
+      <p>接線は接点Pで半径OPに<span class="key">垂直</span>（第2章）。</p>
+      <p>よって「点Pを通り、直線OPに垂直な直線」を作図すればよい。</p>
+    </div>
+
+    <div class="steps-block">
+      <div class="lbl">作図の手順</div>
+      <div class="step"><div class="step-num">1</div>
+        <p>Pを中心に円弧を描き、<span class="key">直線OPおよびその延長</span>上に2点A・Bをとる（PA＝PBとなるように）<br>
+        <span style="font-size:12px;color:#888">※ OとPを結んだ線をそのまま両側に延ばした直線上にとる。コンパスでPを中心に円弧を描けば自然に交わる。</span></p>
+      </div>
+      <div class="step"><div class="step-num">2</div>
+        <p>A・Bをそれぞれ中心に、<span class="key">同じ半径で十分大きな</span>円弧を描き、2つの円弧の交点Qをとる<br>
+        <span style="font-size:12px;color:#888">※ 「十分大きな」＝2つの円弧が必ず交わる大きさ。目安はABの距離の半分より大きければよい。</span></p>
+      </div>
+      <div class="step"><div class="step-num">3</div>
+        <p>直線PQを引く → これが点Pにおける接線</p>
+      </div>
+    </div>
+
+    <div class="reason-block">
+      <div class="lbl">なぜこれが接線になるのか</div>
+      <p>△PAQと△PBQはPA＝PB、AQ＝BQ、PQ共通 → 3辺が等しいので合同。</p>
+      <p>よって ∠APQ＝∠BPQ → PQはABの垂直二等分線 → <span class="key">PQ⊥OP</span>。</p>
+      <p>半径OPに垂直な直線は接線の定義を満たすので、PQが求める接線。</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 問2 解答 -->
+  <div class="problem">
+    <div class="problem-head">
+      <span class="problem-num">問2</span>
+      <span class="tag tag-blue">円外の点からの接線</span>
+      <span class="tag tag-amber">発展</span>
+      <span class="tag tag-green">解答</span>
+    </div>
+
+    <div class="fig-area">
+      <!--
+        計算値:
+        円O: 中心(200,140) 半径80
+        P = (520, 140)
+        OP = 320, M = (360, 140), 補助円半径 = 160
+        cos(∠TOP) = 80/320 = 0.25, sin = 0.9682
+        T1 = (200 + 80*0.25, 140 - 80*0.9682) = (220.0, 62.5)
+        T2 = (220.0, 217.5)
+        垂直二等分線交点: (360, 20) と (360, 260)
+        接線1: P(520,140)→T1(220,62.5) 延長 → (161.9, 47.5) あたりまで
+        接線2: P(520,140)→T2(220,217.5) 延長 → (161.9, 232.5) あたりまで
+      -->
+      <svg viewBox="0 0 600 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="600" height="280" fill="url(#dots)" rx="8"/>
+
+        <!-- 作図跡1: OPの垂直二等分線を引くための円弧（OとPを中心に半径200） -->
+        <circle cx="200" cy="140" r="200" fill="none" stroke="#E24B4A" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>
+        <circle cx="520" cy="140" r="200" fill="none" stroke="#E24B4A" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>
+        <!-- 垂直二等分線 -->
+        <line x1="360" y1="20" x2="360" y2="260" stroke="#E24B4A" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+        <!-- 垂直二等分線の交点（上下） -->
+        <circle cx="360" cy="20" r="3" fill="#E24B4A" opacity="0.8"/>
+        <circle cx="360" cy="260" r="3" fill="#E24B4A" opacity="0.8"/>
+
+        <!-- 中点M -->
+        <circle cx="360" cy="140" r="4" fill="#E24B4A"/>
+        <text x="364" y="134" font-size="12" fill="#E24B4A" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">M</text>
+
+        <!-- 作図跡2: OPを直径とする補助円（中心M, 半径160） -->
+        <circle cx="360" cy="140" r="160" fill="none" stroke="#E24B4A" stroke-width="1.4" stroke-dasharray="6,4" opacity="0.6"/>
+
+        <!-- OP補助線 -->
+        <line x1="200" y1="140" x2="520" y2="140" stroke="#888780" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+        <!-- 半径OT1, OT2（参考） -->
+        <line x1="200" y1="140" x2="220" y2="62.5" stroke="#B5D4F4" stroke-width="1.2" stroke-dasharray="5,4"/>
+        <line x1="200" y1="140" x2="220" y2="217.5" stroke="#B5D4F4" stroke-width="1.2" stroke-dasharray="5,4"/>
+
+        <!-- 接線1（緑・実線）: P→T1方向に延長 -->
+        <line x1="520" y1="140" x2="161.9" y2="47.5" stroke="#1D9E75" stroke-width="2.2"/>
+        <!-- 接線2（緑・実線）: P→T2方向に延長 -->
+        <line x1="520" y1="140" x2="161.9" y2="232.5" stroke="#1D9E75" stroke-width="2.2"/>
+
+        <!-- 直角マーク（T1: OT1⊥PT1）
+             OT1方向: (220-200, 62.5-140) = (20,-77.5), 単位: (0.25,-0.9682)
+             PT1方向: (220-520, 62.5-140) = (-300,-77.5), 単位: (-0.9682,-0.25)
+             T1=(220,62.5)を基点に8px
+             p1 = T1 + 8*OT1_unit = (222.0, 54.8)
+             p2 = T1 + 8*OT1_unit + 8*PT1_unit = (214.3, 52.8)
+             p3 = T1 + 8*PT1_unit = (212.3, 60.5)
+        -->
+        <polygon points="222.0,54.8 214.3,52.8 212.3,60.5 220.0,62.5" fill="none" stroke="#1D9E75" stroke-width="1.3"/>
+
+        <!-- 直角マーク（T2: OT2⊥PT2）
+             OT2方向: (220-200,217.5-140)=(20,77.5), 単位:(0.25,0.9682)
+             PT2方向: (-300,77.5), 単位:(-0.9682,0.25)
+             p1 = T2+8*(0.25,0.9682) = (222.0,220.2)
+             p2 = T2+8*(0.25,0.9682)+8*(-0.9682,0.25) = (214.3,222.2)
+             p3 = T2+8*(-0.9682,0.25) = (212.3,219.5)
+        -->
+        <polygon points="222.0,220.2 214.3,222.2 212.3,219.5 220.0,217.5" fill="none" stroke="#1D9E75" stroke-width="1.3"/>
+
+        <!-- 円O -->
+        <circle cx="200" cy="140" r="80" fill="white" fill-opacity="0.6" stroke="#378ADD" stroke-width="1.8"/>
+        <circle cx="200" cy="140" r="3.5" fill="#185FA5"/>
+        <text x="208" y="136" font-size="14" fill="#0C447C" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">O</text>
+
+        <!-- 接点T1, T2 -->
+        <circle cx="220" cy="62.5" r="5" fill="#D85A30"/>
+        <text x="226" y="56" font-size="13" fill="#993C1D" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">T₁</text>
+        <circle cx="220" cy="217.5" r="5" fill="#D85A30"/>
+        <text x="226" y="236" font-size="13" fill="#993C1D" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">T₂</text>
+
+        <!-- 点P -->
+        <circle cx="520" cy="140" r="5" fill="#444441"/>
+        <text x="528" y="136" font-size="14" fill="#444441" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">P</text>
+
+        <!-- 補助円ラベル -->
+        <text x="370" y="22" font-size="11" fill="#E24B4A" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">OPを直径とする補助円</text>
+        <text x="145" y="44" font-size="11" fill="#0F6E56" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">接線</text>
+      </svg>
+    </div>
+
+    <div class="answer-box">
+      <div class="lbl">考え方</div>
+      <p>接点TではOT⊥PT（∠OTP＝90°）が成り立つ（第2章）。</p>
+      <p>「OPを直径とする円」の円周上の点はOPに対して90°をなす（円周角の定理・発展）。</p>
+      <p>→ この補助円と円Oの交点がそのまま接点T₁・T₂になる。</p>
+    </div>
+
+    <div class="steps-block">
+      <div class="lbl">作図の手順</div>
+      <div class="step"><div class="step-num">1</div>
+        <p>線分OPの<span class="key">垂直二等分線</span>を作図し、中点Mを求める<br>
+        <span style="font-size:12px;color:#888">※ OとPをそれぞれ中心に同じ半径（OPの半分より大きく）で円弧を描き、その2交点を結ぶ。</span></p>
+      </div>
+      <div class="step"><div class="step-num">2</div>
+        <p>Mを中心、MO（＝MP）を半径とする<span class="key">補助円</span>を描く</p>
+      </div>
+      <div class="step"><div class="step-num">3</div>
+        <p>補助円と円Oの交点をT₁・T₂とする → これが接点</p>
+      </div>
+      <div class="step"><div class="step-num">4</div>
+        <p>直線PT₁、PT₂を引く → 2本の接線の完成</p>
+      </div>
+    </div>
+
+    <div class="reason-block">
+      <div class="lbl">なぜこれが接線になるのか</div>
+      <p>T₁は「OPを直径とする補助円」の円周上にある → <span class="key">∠OT₁P＝90°</span>（円周角の定理）。</p>
+      <p>∠OT₁P＝90° → OT₁⊥PT₁。OT₁は半径なので、第2章の定理の逆より PT₁ は円Oへの接線。</p>
+      <p>T₂についても同様。また PT₁＝PT₂（どちらの接線の長さも等しい）。</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
