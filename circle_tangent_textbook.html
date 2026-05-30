@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>円と接線・接点 ― 教科書</title>
+<style>
+  :root {
+    --blue-50: #E6F1FB;
+    --blue-100: #B5D4F4;
+    --blue-400: #378ADD;
+    --blue-600: #185FA5;
+    --blue-800: #0C447C;
+    --blue-900: #042C53;
+    --teal-50: #E1F5EE;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --coral-400: #D85A30;
+    --coral-600: #993C1D;
+    --green-50: #EAF3DE;
+    --green-400: #639922;
+    --green-600: #3B6D11;
+    --green-800: #27500A;
+    --amber-50: #FAEEDA;
+    --amber-400: #BA7517;
+    --gray-100: #D3D1C7;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --gray-800: #444441;
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --surface2: #F1EFE8;
+    --text: #1a1a18;
+    --text-muted: #5F5E5A;
+    --border: rgba(0,0,0,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+
+  /* ヘッダー */
+  .site-header {
+    border-bottom: 2px solid var(--blue-400);
+    padding: 32px 0 20px;
+    margin-bottom: 36px;
+  }
+  .site-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--blue-900);
+    margin-bottom: 4px;
+  }
+  .site-header .sub {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* 目次 */
+  .toc {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .toc h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 0.05em; }
+  .toc ol { padding-left: 20px; }
+  .toc li { font-size: 14px; margin: 6px 0; }
+  .toc a { color: var(--blue-600); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* セクション */
+  .section { margin-bottom: 56px; scroll-margin-top: 24px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--blue-100);
+  }
+  .chapter-badge {
+    background: var(--blue-400);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  p { margin-bottom: 12px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* カード類 */
+  .rule-card {
+    background: var(--blue-50);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .rule-card .card-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue-600);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .rule-card p { color: var(--blue-900); margin-bottom: 6px; }
+
+  .proof-block {
+    border-left: 3px solid var(--blue-400);
+    padding: 12px 16px;
+    margin: 12px 0;
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+  }
+  .proof-block p { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+
+  .warn-card {
+    background: var(--amber-50);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 14px 0;
+  }
+  .warn-card p { font-size: 13px; color: #412402; margin-bottom: 0; }
+
+  /* 図エリア */
+  .fig-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+    align-items: flex-start;
+  }
+  .fig-col { flex: 1 1 180px; }
+  .fig-cap {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* インタラクティブエリア */
+  .interactive-area {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .interactive-area .hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .ctrl-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+  .ctrl-row input[type=range] {
+    accent-color: var(--blue-400);
+    cursor: pointer;
+  }
+  .ctrl-val {
+    font-weight: 600;
+    color: var(--text);
+    min-width: 36px;
+  }
+
+  /* 作図ステップ */
+  .steps { margin: 12px 0; }
+  .step-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 10px 0;
+  }
+  .step-num {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--blue-400);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-row p { font-size: 14px; margin: 0; padding-top: 3px; }
+
+  /* まとめグリッド */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .sum-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .sum-card .sum-lbl { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .sum-card .sum-val { font-size: 20px; font-weight: 600; color: var(--blue-800); margin-bottom: 4px; }
+  .sum-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
+
+  /* フッター */
+  .footer-summary {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 40px;
+  }
+  .footer-summary h3 { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .pillar {
+    border-left: 3px solid var(--blue-400);
+    padding-left: 12px;
+  }
+  .pillar h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .pillar p { font-size: 12px; color: var(--text-muted); margin: 0; }
+
+  .key { font-weight: 600; }
+  hr.divider { border: none; border-top: 0.5px solid var(--border); margin: 0; }
+
+  svg text { font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', sans-serif; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <h1>円と接線・接点 ― 教科書</h1>
+    <div class="sub">中学1・2年生の復習｜発展内容つき</div>
+  </header>
+
+  <!-- 目次 -->
+  <nav class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#ch1">円と直線の交わり方</a></li>
+      <li><a href="#ch2">接線と半径は垂直になる</a></li>
+      <li><a href="#ch3">角の二等分線とその性質</a></li>
+      <li><a href="#ch4">角に接する円を作図する</a></li>
+      <li><a href="#ch5">外部の点から接線を引く（発展）</a></li>
+      <li><a href="#ch6">2円が接する ― 外接と内接（発展）</a></li>
+      <li><a href="#ch7">三角形の内接円と内心（発展）</a></li>
+    </ol>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="section" id="ch1">
+    <div class="section-header">
+      <span class="chapter-badge">第1章</span>
+      <h2>円と直線の交わり方</h2>
+    </div>
+    <p>円と直線の関係には3種類あります。直線が円の中を通り抜けるとき（2点で交わる）、ちょうど1点で触れるとき（接する）、まったく触れないとき（交わらない）です。</p>
+
+    <div class="fig-row">
+      <div class="fig-col">
+        <svg viewBox="0 0 200 130" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="70" r="45" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+          <line x1="20" y1="45" x2="180" y2="45" stroke="#D85A30" stroke-width="1.8"/>
+          <circle cx="67" cy="45" r="3.5" fill="#D85A30"/>
+          <circle cx="133" cy="45" r="3.5" fill="#D85A30"/>
+          <text x="100" y="122" text-anchor="middle" font-size="11" fill="#5F5E5A">2点で交わる（割線）</text>
+        </svg>
+      </div>
+      <div class="fig-col">
+        <svg viewBox="0 0 200 130" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="72" r="45" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+          <line x1="20" y1="27" x2="180" y2="27" stroke="#1D9E75" stroke-width="1.8"/>
+          <circle cx="100" cy="27" r="3.5" fill="#1D9E75"/>
+          <text x="100" y="122" text-anchor="middle" font-size="11" fill="#5F5E5A">1点で接する（接線・接点）</text>
+        </svg>
+      </div>
+      <div class="fig-col">
+        <svg viewBox="0 0 200 130" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="78" r="45" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+          <line x1="20" y1="18" x2="180" y2="18" stroke="#888780" stroke-width="1.8"/>
+          <text x="100" y="122" text-anchor="middle" font-size="11" fill="#5F5E5A">交わらない（離れている）</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="card-label">定義</div>
+      <p>円を2点で通る直線を<span class="key">割線</span>といいます。</p>
+      <p>円にちょうど1点で交わる直線を<span class="key">接線</span>、その1点を<span class="key">接点</span>といいます。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 第2章 ===== -->
+  <section class="section" id="ch2" style="margin-top:40px">
+    <div class="section-header">
+      <span class="chapter-badge">第2章</span>
+      <h2>接線と半径は垂直になる</h2>
+    </div>
+    <p>これが最も重要な性質です。接線と、接点を通る半径は、必ず直角（90°）で交わります。</p>
+
+    <div class="interactive-area">
+      <p class="hint">スライダーで接点Pの位置を動かしてみましょう ― どこでも ∠OPT ＝ 90° になります</p>
+      <svg id="svg2" viewBox="0 0 480 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="110" r="75" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+        <circle cx="200" cy="110" r="3.5" fill="#185FA5"/>
+        <text x="207" y="106" font-size="13" fill="#0C447C">O</text>
+        <line id="c2-radius" x1="200" y1="110" x2="275" y2="110" stroke="#185FA5" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <line id="c2-tangent" x1="275" y1="20" x2="275" y2="200" stroke="#1D9E75" stroke-width="2.2"/>
+        <g id="c2-sq"></g>
+        <circle id="c2-P" cx="275" cy="110" r="5.5" fill="#D85A30"/>
+        <text id="c2-Plbl" x="283" y="107" font-size="13" fill="#993C1D" font-weight="600">P（接点）</text>
+        <text id="c2-angle" x="310" y="60" font-size="14" fill="#0F6E56" font-weight="600">∠OPT ＝ 90°</text>
+      </svg>
+      <div class="ctrl-row">
+        <span>接点Pの位置（角度）</span>
+        <input type="range" id="sl2" min="0" max="359" value="0" style="width:200px">
+        <span class="ctrl-val" id="sl2-lbl">0°</span>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="card-label">最重要定理</div>
+      <p><span class="key">接線は、接点を通る半径に対して垂直（90°）</span>です。</p>
+      <p>逆に、半径の端点から半径に垂直な直線を引くと、それが接線になります。</p>
+    </div>
+
+    <p><span class="key">なぜ垂直なのか？</span></p>
+    <div class="proof-block">
+      <p>接点P以外の接線上の点を、仮にQとしてみましょう。</p>
+      <p>点Qは円の外側にあります。円の定義より、円の外側の点から中心Oまでの距離は半径より必ず長くなります。つまり OQ ＞ OP です。</p>
+      <p>これは接線上のどんな点Qをとっても成り立ちます。すなわち、接線上の点の中で中心Oまでの距離が最も短いのは接点P、つまりOPです。</p>
+      <p>一般に、ある点から直線上の点までの距離が最小になるのは、その直線に対して垂直に下ろした点（垂線の足）のときです。これは、垂線以外の線分は直角三角形の斜辺にあたるため必ず垂線より長くなることから分かります（※斜辺が最長になることは、中学3年生で学ぶ三平方の定理で厳密に証明できます）。</p>
+      <p>よって OP は接線への垂線であり、OP⊥接線、つまり ∠OPT＝90° が成り立ちます。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 第3章 ===== -->
+  <section class="section" id="ch3" style="margin-top:40px">
+    <div class="section-header">
+      <span class="chapter-badge">第3章</span>
+      <h2>角の二等分線とその性質</h2>
+    </div>
+    <p>接する円を作図するときに必ず使う道具が「角の二等分線」です。まずその性質を理解しましょう。</p>
+
+    <div class="rule-card">
+      <div class="card-label">定理</div>
+      <p><span class="key">角の二等分線上の点</span>から、その角を作る2辺までの距離は等しい。</p>
+      <p>逆に、2辺から等距離にある点は、角の二等分線上にある。</p>
+    </div>
+
+    <div class="interactive-area">
+      <p class="hint">スライダーで点Pを動かしてみましょう ― d₁＝d₂ が常に成り立ちます。「円を表示」で接する円も確認できます</p>
+      <svg id="svg3" viewBox="0 0 480 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <line id="c3-ray1" x1="60" y1="200" x2="420" y2="200" stroke="#888780" stroke-width="1.8"/>
+        <line id="c3-ray2" x1="60" y1="200" x2="60" y2="200" stroke="#888780" stroke-width="1.8"/>
+        <path id="c3-arc" d="" fill="none" stroke="#888780" stroke-width="1.2"/>
+        <line id="c3-bis" x1="60" y1="200" x2="60" y2="200" stroke="#D85A30" stroke-width="1.6" stroke-dasharray="6,3"/>
+        <circle id="c3-inscribed" cx="0" cy="0" r="0" fill="none" stroke="#1D9E75" stroke-width="1.8" opacity="0"/>
+        <line id="c3-p1" x1="0" y1="0" x2="0" y2="0" stroke="#378ADD" stroke-width="1.3" stroke-dasharray="4,2"/>
+        <polygon id="c3-sq1" points="" fill="none" stroke="#378ADD" stroke-width="1.2"/>
+        <circle id="c3-f1" cx="0" cy="0" r="3" fill="#378ADD"/>
+        <line id="c3-p2" x1="0" y1="0" x2="0" y2="0" stroke="#378ADD" stroke-width="1.3" stroke-dasharray="4,2"/>
+        <polygon id="c3-sq2" points="" fill="none" stroke="#378ADD" stroke-width="1.2"/>
+        <circle id="c3-f2" cx="0" cy="0" r="3" fill="#378ADD"/>
+        <text id="c3-d1" x="0" y="0" font-size="13" fill="#185FA5" font-weight="600">d₁</text>
+        <text id="c3-d2" x="0" y="0" font-size="13" fill="#185FA5" font-weight="600">d₂</text>
+        <text id="c3-eq" x="340" y="40" font-size="14" fill="#0F6E56" font-weight="600">d₁ ＝ d₂</text>
+        <circle id="c3-P" cx="0" cy="0" r="5.5" fill="#D85A30"/>
+        <text id="c3-Plbl" x="0" y="0" font-size="13" fill="#993C1D" font-weight="600">P</text>
+        <circle cx="60" cy="200" r="3.5" fill="#444441"/>
+        <text x="42" y="218" font-size="14" fill="#444441" font-weight="600">A</text>
+      </svg>
+      <div class="ctrl-row">
+        <span>∠の開き具合</span>
+        <input type="range" id="sl3a" min="20" max="80" value="40" style="width:140px">
+        <span class="ctrl-val" id="sl3a-lbl">80°</span>
+        <span style="margin-left:8px">Pの位置</span>
+        <input type="range" id="sl3t" min="15" max="90" value="55" style="width:140px">
+        <button id="btn-circle" onclick="toggleCircle()" style="margin-left:8px;padding:4px 14px;font-size:13px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface);cursor:pointer;color:var(--text)">円を表示</button>
+      </div>
+    </div>
+
+    <p><span class="key">なぜ等しいか（証明のポイント）</span></p>
+    <div class="proof-block">
+      <p>Pからそれぞれの辺に垂線を引き、足をQ・Rとする。</p>
+      <p>△APQ と △APR を比べると</p>
+      <p>・AP は共通</p>
+      <p>・∠QAP＝∠RAP（Pは二等分線上）</p>
+      <p>・∠AQP＝∠ARP＝90°</p>
+      <p>直角三角形で斜辺と1鋭角が等しい → △APQ≅△APR</p>
+      <p>したがって PQ＝PR（d₁＝d₂）</p>
+    </div>
+
+    <p><span class="key">作図の手順</span></p>
+    <div class="steps">
+      <div class="step-row"><div class="step-num">1</div><p>頂点Aを中心に円弧を描き、2辺との交点B・Cをとる</p></div>
+      <div class="step-row"><div class="step-num">2</div><p>B・Cをそれぞれ中心に、同じ半径の円弧を描き、交点Dをとる</p></div>
+      <div class="step-row"><div class="step-num">3</div><p>AとDを結ぶ直線が角の二等分線</p></div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 第4章（新） ===== -->
+  <section class="section" id="ch4" style="margin-top:40px">
+    <div class="section-header">
+      <span class="chapter-badge">第4章</span>
+      <h2>角に接する円を作図する</h2>
+    </div>
+    <p>第2章・第3章で学んだ2つの性質を組み合わせると、「2直線の両方に接する円」を作図できます。これが「接する円」の作図の基本です。</p>
+
+    <div class="rule-card">
+      <div class="card-label">考え方</div>
+      <p>2直線に接する円の中心は、<span class="key">2直線から等距離</span>にあります。</p>
+      <p>第3章より、2直線から等距離にある点の集まりは<span class="key">角の二等分線</span>です。</p>
+      <p>したがって、円の中心は角の二等分線上にあります。あとは半径（中心から辺への距離）を決めれば円が定まります。</p>
+    </div>
+
+    <div class="fig-row">
+      <div class="fig-col" style="flex:1 1 220px">
+        <!-- 角A=(40,200), 辺1=水平右, 辺2=角度35°上向き。二等分線=17.5°。中心I=二等分線上dist=90 -->
+        <!-- bisRad=-17.5°: dx=cos(-17.5°)=0.9537, dy=sin(-17.5°)=-0.3007 -->
+        <!-- I = (40+90*0.9537, 200+90*(-0.3007)) = (125.8, 172.9) ≈ (126,173) -->
+        <!-- r = dist from I to ray1(y=200) = 200-173 = 27 -->
+        <!-- 辺2方向: (cos(145°),sin(145°))=(-0.819,0.574) → 端点=(40+220*cos35°,200-220*sin35°)=(220,74) -->
+        <svg viewBox="0 0 300 230" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <line x1="40" y1="200" x2="275" y2="200" stroke="#888780" stroke-width="1.8"/>
+          <line x1="40" y1="200" x2="220" y2="74"  stroke="#888780" stroke-width="1.8"/>
+          <line x1="40" y1="200" x2="260" y2="133" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <circle cx="126" cy="173" r="4" fill="#D85A30"/>
+          <circle cx="126" cy="173" r="27" fill="none" stroke="#1D9E75" stroke-width="1.8"/>
+          <!-- 垂線1: Iから辺1(y=200)へ -->
+          <line x1="126" y1="173" x2="126" y2="200" stroke="#378ADD" stroke-width="1.2" stroke-dasharray="4,2"/>
+          <rect x="118" y="192" width="8" height="8" fill="none" stroke="#378ADD" stroke-width="1.1"/>
+          <circle cx="126" cy="200" r="3" fill="#378ADD"/>
+          <!-- 垂線2: Iから辺2への垂線の足を正確に計算 -->
+          <!-- 辺2方向単位ベクトル: (cos(-55°),sin(-55°))=(0.5736,-0.8192) -->
+          <!-- AI=(86,−27), dot with dir = 86*0.5736+(−27)*(−0.8192)=49.3+22.1=71.4 -->
+          <!-- foot = (40+71.4*0.5736, 200+71.4*(−0.8192)) = (40+40.9, 200−58.5) = (81,142) -->
+          <line x1="126" y1="173" x2="81" y2="142" stroke="#378ADD" stroke-width="1.2" stroke-dasharray="4,2"/>
+          <circle cx="81" cy="142" r="3" fill="#378ADD"/>
+          <!-- 直角マーク(辺2方向に回転) -->
+          <rect x="77" y="138" width="7" height="7" fill="none" stroke="#378ADD" stroke-width="1.1" transform="rotate(-55,81,142)"/>
+          <text x="130" y="188" font-size="12" fill="#185FA5" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">r</text>
+          <text x="96"  y="160" font-size="12" fill="#185FA5" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">r</text>
+          <text x="26" y="216" font-size="13" fill="#444441" font-weight="600" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">A</text>
+          <text x="130" y="170" font-size="12" fill="#993C1D" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">I</text>
+          <text x="148" y="224" font-size="11" fill="#D85A30" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif">角の二等分線</text>
+        </svg>
+        <div class="fig-cap">中心Iは二等分線上・半径r＝辺への垂線の長さ</div>
+      </div>
+      <div style="flex:2 1 220px;padding-top:8px">
+        <p><span class="key">作図の手順</span></p>
+        <div class="steps">
+          <div class="step-row"><div class="step-num">1</div><p>角の二等分線を作図する（第3章の手順で）</p></div>
+          <div class="step-row"><div class="step-num">2</div><p>二等分線上に中心Iを1点決める（どこでも良い。Iの位置で円の大きさが変わる）</p></div>
+          <div class="step-row"><div class="step-num">3</div><p>Iから一方の辺に垂線を引き、足Hをとる</p></div>
+          <div class="step-row"><div class="step-num">4</div><p>Iを中心、IHを半径とする円を描く → この円は2辺に接する</p></div>
+        </div>
+        <div class="warn-card" style="margin-top:12px">
+          <p>中心Iを二等分線上のどこにとっても、2辺への距離（＝半径r）は常に等しくなります。円の大きさは変わりますが、必ず2辺に接します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 第5章（旧第4章） ===== -->
+  <section class="section" id="ch5" style="margin-top:40px">
+    <div class="section-header">
+      <span class="chapter-badge">第5章</span>
+      <h2>外部の点から接線を引く <span style="font-size:14px;font-weight:500;background:#FAEEDA;color:#633806;padding:2px 10px;border-radius:20px;vertical-align:middle;margin-left:6px">発展</span></h2>
+    </div>
+    <p style="background:#FAEEDA;border-radius:8px;padding:10px 14px;font-size:13px;color:#633806;">※ この方法では、中学3年生で学ぶ「円周角の定理」（半円の弧に対する円周角は90°）を使います。定理の意味はここで確認できますが、詳しい証明は中3で学習します。</p>
+    <p>円の外側の点Pから接線を引くには、接点Tで必ず ∠OTP＝90° が成り立つことを利用します。</p>
+
+    <div class="rule-card">
+      <div class="card-label">考え方（円周角の定理 ― 中3で学ぶ内容）</div>
+      <p>半円の弧に対する円周角は90°になります（中3「円周角の定理」）。</p>
+      <p>つまり<span class="key">OPを直径とする円</span>を描くと、「その円の円周上にある点T」では ∠OTP＝90° が成り立ちます。</p>
+      <p>第2章の定理より、∠OTP＝90° になる点Tは円Oへの接点です。この円と元の円の交点が、求める接点Tになります。</p>
+    </div>
+
+    <div class="interactive-area">
+      <p class="hint">スライダーで点Pを動かすと接線と接点が変わります</p>
+      <svg id="svg4" viewBox="0 0 480 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle id="c4-helper" cx="270" cy="110" r="70" fill="none" stroke="#9FE1CB" stroke-width="1.2" stroke-dasharray="6,4"/>
+        <circle cx="130" cy="110" r="55" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+        <circle cx="130" cy="110" r="3" fill="#185FA5"/>
+        <text x="136" y="106" font-size="12" fill="#0C447C">O</text>
+        <circle id="c4-P" cx="410" cy="110" r="5" fill="#444441"/>
+        <text id="c4-Plbl" x="415" y="107" font-size="12" fill="#444441">P</text>
+        <line id="c4-OP" x1="130" y1="110" x2="410" y2="110" stroke="#888780" stroke-width="1" stroke-dasharray="4,3"/>
+        <line id="c4-t1" x1="410" y1="110" x2="175" y2="62" stroke="#D85A30" stroke-width="1.8"/>
+        <line id="c4-t2" x1="410" y1="110" x2="175" y2="158" stroke="#D85A30" stroke-width="1.8"/>
+        <circle id="c4-T1" cx="175" cy="62" r="4.5" fill="#D85A30"/>
+        <circle id="c4-T2" cx="175" cy="158" r="4.5" fill="#D85A30"/>
+        <text id="c4-T1l" x="155" y="54" font-size="12" fill="#993C1D">T₁</text>
+        <text id="c4-T2l" x="155" y="173" font-size="12" fill="#993C1D">T₂</text>
+        <text x="290" y="74" font-size="11" fill="#0F6E56">OPを直径とする補助円</text>
+      </svg>
+      <div class="ctrl-row">
+        <span>点Pの位置</span>
+        <input type="range" id="sl4" min="220" max="460" value="410" style="width:200px">
+      </div>
+    </div>
+
+    <p><span class="key">作図の手順</span></p>
+    <div class="steps">
+      <div class="step-row"><div class="step-num">1</div><p>OとPの中点Mを求める（線分OPを2等分する）</p></div>
+      <div class="step-row"><div class="step-num">2</div><p>Mを中心、MO（＝MP）を半径とする補助円を描く（これがOPを直径とする円）</p></div>
+      <div class="step-row"><div class="step-num">3</div><p>補助円と元の円の交点T₁・T₂をとる</p></div>
+      <div class="step-row"><div class="step-num">4</div><p>P–T₁、P–T₂ を結ぶ → 2本の接線の完成</p></div>
+    </div>
+
+    <div class="warn-card">
+      <p>接線は2本引けます。外部の点Pから同じ円への接線の長さ（PT₁とPT₂）は等しくなります。これも大切な性質です。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 第6章（旧第5章） ===== -->
+  <section class="section" id="ch6" style="margin-top:40px">
+    <div class="section-header">
+      <span class="chapter-badge">第6章</span>
+      <h2>2円が接する ― 外接と内接 <span style="font-size:14px;font-weight:500;background:#FAEEDA;color:#633806;padding:2px 10px;border-radius:20px;vertical-align:middle;margin-left:6px">発展</span></h2>
+    </div>
+    <p style="background:#FAEEDA;border-radius:8px;padding:10px 14px;font-size:13px;color:#633806;">※ 2円の外接・内接は中学1・2年の正式な単元ではありません。高校入試の発展問題や高校数学で登場する内容です。接線の性質の応用として参考にしてください。</p>
+
+    <div class="summary-grid">
+      <div class="sum-card">
+        <div class="sum-lbl">外接のとき、中心間距離</div>
+        <div class="sum-val">d ＝ r₁ ＋ r₂</div>
+        <p>接点Tは、2つの中心を結ぶ直線 O₁O₂ 上にある</p>
+      </div>
+      <div class="sum-card">
+        <div class="sum-lbl">内接のとき、中心間距離（r₁ ＞ r₂ とする）</div>
+        <div class="sum-val" style="color:#3B6D11">d ＝ r₁ − r₂</div>
+        <p>接点Tは、直線 O₁O₂ の延長線上にある</p>
+      </div>
+    </div>
+
+    <div class="fig-row">
+      <div class="fig-col">
+        <svg viewBox="0 0 220 140" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70" cy="70" r="45" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+          <circle cx="148" cy="70" r="33" fill="#EAF3DE" stroke="#639922" stroke-width="1.5"/>
+          <circle cx="70" cy="70" r="3" fill="#185FA5"/>
+          <circle cx="148" cy="70" r="3" fill="#3B6D11"/>
+          <circle cx="115" cy="70" r="4" fill="#D85A30"/>
+          <line x1="70" y1="70" x2="148" y2="70" stroke="#888780" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="60" y="64" font-size="11" fill="#0C447C">O₁</text>
+          <text x="150" y="64" font-size="11" fill="#27500A">O₂</text>
+          <text x="108" y="60" font-size="10" fill="#993C1D">T</text>
+          <text x="110" y="130" text-anchor="middle" font-size="10" fill="#888780">外接 d＝r₁＋r₂</text>
+        </svg>
+        <div class="fig-cap">外接 ― 接点Tは内側</div>
+      </div>
+      <div class="fig-col">
+        <svg viewBox="0 0 220 140" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="95" cy="70" r="60" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+          <circle cx="112" cy="70" r="43" fill="#EAF3DE" stroke="#639922" stroke-width="1.5"/>
+          <circle cx="95" cy="70" r="3" fill="#185FA5"/>
+          <circle cx="112" cy="70" r="3" fill="#3B6D11"/>
+          <circle cx="155" cy="70" r="4" fill="#D85A30"/>
+          <line x1="95" y1="70" x2="160" y2="70" stroke="#888780" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="83" y="64" font-size="11" fill="#0C447C">O₁</text>
+          <text x="114" y="58" font-size="11" fill="#27500A">O₂</text>
+          <text x="157" y="64" font-size="10" fill="#993C1D">T</text>
+          <text x="110" y="130" text-anchor="middle" font-size="10" fill="#888780">内接 d＝r₁−r₂（r₁＞r₂）</text>
+        </svg>
+        <div class="fig-cap">内接 ― 接点Tは延長線上</div>
+      </div>
+    </div>
+
+    <p><span class="key">接点の位置 ― 共通のルール</span></p>
+    <div class="proof-block">
+      <p>外接・内接どちらの場合も、<span style="font-weight:600">接点Tは2つの中心O₁・O₂を結ぶ直線上にあります</span>。</p>
+      <p>外接のとき：TはO₁とO₂の「間」に位置します。</p>
+      <p>内接のとき：TはO₁O₂の「延長線上」（大きい円の側の外）に位置します。</p>
+      <p>また、接点Tで引いた共通接線は、直線O₁O₂に対して垂直になります（第2章の性質から）。</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 第7章（旧第6章） ===== -->
+  <section class="section" id="ch7" style="margin-top:40px">
+    <div class="section-header">
+      <span class="chapter-badge">第7章</span>
+      <h2>三角形の内接円と内心 <span style="font-size:14px;font-weight:500;background:#FAEEDA;color:#633806;padding:2px 10px;border-radius:20px;vertical-align:middle;margin-left:6px">発展</span></h2>
+    </div>
+    <p style="background:#FAEEDA;border-radius:8px;padding:10px 14px;font-size:13px;color:#633806;">※ 内心・内接円は中学3年〜高校で扱うことの多い内容です。高校入試の発展問題でも登場します。角の二等分線（第3章）と接線の性質（第2章）の集大成として、先取り的に確認しておきましょう。</p>
+    <p>「角の二等分線」と「接線⊥半径」を組み合わせると、三角形の内接円の中心（内心）を作図できます。</p>
+
+    <div class="rule-card">
+      <div class="card-label">内心の求め方</div>
+      <p>三角形の<span class="key">3つの内角の二等分線は1点（内心）で交わります</span>。</p>
+      <p>内心は3辺すべてから等距離にあるため、そこを中心に3辺に接する円（内接円）を描けます。</p>
+      <p>内接円の半径 ＝ 内心からいずれかの辺への垂線の長さ</p>
+    </div>
+    <div class="warn-card">
+      <p>内心は「見た目の真ん中」とは限りません。三角形の3辺から等距離にある点なので、三角形の形によって位置が変わります。</p>
+    </div>
+
+    <div class="fig-row">
+      <div class="fig-col">
+        <svg viewBox="0 0 240 195" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="120,20 20,168 220,168" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/>
+          <line x1="120" y1="20"  x2="120" y2="115" stroke="#D85A30" stroke-width="1" stroke-dasharray="5,3"/>
+          <line x1="20"  y1="168" x2="120" y2="115" stroke="#D85A30" stroke-width="1" stroke-dasharray="5,3"/>
+          <line x1="220" y1="168" x2="120" y2="115" stroke="#D85A30" stroke-width="1" stroke-dasharray="5,3"/>
+          <circle cx="120" cy="115" r="3.5" fill="#D85A30"/>
+          <circle cx="120" cy="115" r="53" fill="none" stroke="#1D9E75" stroke-width="1.5"/>
+          <line x1="120" y1="115" x2="120" y2="168" stroke="#378ADD" stroke-width="1" stroke-dasharray="3,2"/>
+          <rect x="112" y="160" width="8" height="8" fill="none" stroke="#378ADD" stroke-width="1"/>
+          <text x="126" y="112" font-size="11" fill="#993C1D">内心I</text>
+          <text x="120" y="14" text-anchor="middle" font-size="13" fill="#0C447C" font-weight="600">A</text>
+          <text x="10"  y="182" font-size="13" fill="#0C447C" font-weight="600">B</text>
+          <text x="223" y="182" font-size="13" fill="#0C447C" font-weight="600">C</text>
+        </svg>
+        <div class="fig-cap">3本の角の二等分線が内心Iで交わる</div>
+      </div>
+      <div style="flex:2 1 200px;padding-top:8px">
+        <p><span class="key">内接円の作図手順</span></p>
+        <div class="steps">
+          <div class="step-row"><div class="step-num">1</div><p>3つの内角のうち2つの角の二等分線を作図し、交点Iを求める</p></div>
+          <div class="step-row"><div class="step-num">2</div><p>Iからいずれかの1辺に垂線を引き、足Hをとる</p></div>
+          <div class="step-row"><div class="step-num">3</div><p>Iを中心、IHを半径とする円を描く → 内接円の完成</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- まとめ -->
+  <div class="footer-summary">
+    <h3>まとめ ― 覚えるべき4つの柱</h3>
+    <div class="pillar-grid">
+      <div class="pillar" style="border-color:#378ADD">
+        <h4>接線⊥半径</h4>
+        <p>接点で必ず90°。すべての作図・計算の基本。</p>
+      </div>
+      <div class="pillar" style="border-color:#D85A30">
+        <h4>角の二等分線＝等距離</h4>
+        <p>2辺から等距離の点の軌跡。接する円の中心を求める。</p>
+      </div>
+      <div class="pillar" style="border-color:#1D9E75">
+        <h4>接する円の作図</h4>
+        <p>二等分線上に中心、辺への垂線の長さが半径。</p>
+      </div>
+      <div class="pillar" style="border-color:#639922">
+        <h4>2円の中心距離</h4>
+        <p>外接 r₁＋r₂、内接 r₁−r₂（大きい方から小さい方を引く）。接点は中心線上。</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+/* ===== 第2章 ===== */
+(function(){
+  const OX=200,OY=110,R=75;
+  const sl=document.getElementById('sl2');
+  const slLbl=document.getElementById('sl2-lbl');
+  function draw(deg){
+    const rad=deg*Math.PI/180;
+    const px=OX+R*Math.cos(rad), py=OY+R*Math.sin(rad);
+    const tx=-Math.sin(rad), ty=Math.cos(rad);
+    const nx=Math.cos(rad),  ny=Math.sin(rad);
+    const L=120;
+    document.getElementById('c2-radius').setAttribute('x2',px);
+    document.getElementById('c2-radius').setAttribute('y2',py);
+    document.getElementById('c2-tangent').setAttribute('x1',px+tx*L);
+    document.getElementById('c2-tangent').setAttribute('y1',py+ty*L);
+    document.getElementById('c2-tangent').setAttribute('x2',px-tx*L);
+    document.getElementById('c2-tangent').setAttribute('y2',py-ty*L);
+    document.getElementById('c2-P').setAttribute('cx',px);
+    document.getElementById('c2-P').setAttribute('cy',py);
+    const s=9;
+    const q1x=px+tx*s,q1y=py+ty*s;
+    const q2x=q1x+nx*s,q2y=q1y+ny*s;
+    const q3x=px+nx*s,q3y=py+ny*s;
+    document.getElementById('c2-sq').innerHTML=
+      `<polygon points="${px},${py} ${q1x},${q1y} ${q2x},${q2y} ${q3x},${q3y}" fill="none" stroke="#185FA5" stroke-width="1.3"/>`;
+    const off=16;
+    document.getElementById('c2-Plbl').setAttribute('x',px+nx*off);
+    document.getElementById('c2-Plbl').setAttribute('y',py+ny*off+5);
+    const lx=Math.max(10,Math.min(360,px+nx*36+tx*18));
+    const ly=Math.max(20,Math.min(210,py+ny*36+ty*18));
+    document.getElementById('c2-angle').setAttribute('x',lx);
+    document.getElementById('c2-angle').setAttribute('y',ly);
+  }
+  sl.addEventListener('input',e=>{slLbl.textContent=e.target.value+'°';draw(+e.target.value);});
+  draw(0);
+})();
+
+/* ===== 第3章 ===== */
+(function(){
+  const AX=60,AY=200;
+  let circleVisible=false;
+
+  window.toggleCircle=function(){
+    circleVisible=!circleVisible;
+    document.getElementById('c3-inscribed').setAttribute('opacity', circleVisible ? '1' : '0');
+    document.getElementById('btn-circle').textContent = circleVisible ? '円を非表示' : '円を表示';
+    document.getElementById('btn-circle').style.background = circleVisible ? '#E6F1FB' : 'var(--surface)';
+    document.getElementById('btn-circle').style.color = circleVisible ? '#0C447C' : 'var(--text)';
+    document.getElementById('btn-circle').style.borderColor = circleVisible ? '#378ADD' : 'var(--border)';
+  };
+
+  function perpFoot(px,py,ax,ay,bx,by){
+    const dx=bx-ax,dy=by-ay,len2=dx*dx+dy*dy;
+    const t=((px-ax)*dx+(py-ay)*dy)/len2;
+    return {x:ax+t*dx,y:ay+t*dy};
+  }
+  function sqMark(px,py,fx,fy,s){
+    const dx=fx-px,dy=fy-py,len=Math.sqrt(dx*dx+dy*dy);
+    const ux=dx/len,uy=dy/len,vx=-uy,vy=ux;
+    return `${fx},${fy} ${fx+vx*s},${fy+vy*s} ${fx+vx*s+ux*s},${fy+vy*s+uy*s} ${fx+ux*s},${fy+uy*s}`;
+  }
+  function draw(){
+    const half=+document.getElementById('sl3a').value;
+    const t=+document.getElementById('sl3t').value;
+    document.getElementById('sl3a-lbl').textContent=(half*2)+'°';
+    const totalRad=half*2*Math.PI/180;
+    const ray2EndX=AX+380*Math.cos(-totalRad);
+    const ray2EndY=AY+380*Math.sin(-totalRad);
+    document.getElementById('c3-ray2').setAttribute('x2',ray2EndX);
+    document.getElementById('c3-ray2').setAttribute('y2',ray2EndY);
+    const bisRad=-half*Math.PI/180;
+    const bdx=Math.cos(bisRad),bdy=Math.sin(bisRad);
+    document.getElementById('c3-bis').setAttribute('x2',AX+bdx*340);
+    document.getElementById('c3-bis').setAttribute('y2',AY+bdy*340);
+    const ar=48;
+    const a1x=AX+ar,a1y=AY;
+    const a2x=AX+ar*Math.cos(-totalRad),a2y=AY+ar*Math.sin(-totalRad);
+    document.getElementById('c3-arc').setAttribute('d',`M${a1x},${a1y} A${ar},${ar} 0 0,1 ${a2x},${a2y}`);
+    const dist=t*3.2;
+    const px=AX+bdx*dist,py=AY+bdy*dist;
+    document.getElementById('c3-P').setAttribute('cx',px);
+    document.getElementById('c3-P').setAttribute('cy',py);
+    const perpBx=-bdy,perpBy=bdx;
+    document.getElementById('c3-Plbl').setAttribute('x',px+perpBx*12-4);
+    document.getElementById('c3-Plbl').setAttribute('y',py+perpBy*12+5);
+    const f1=perpFoot(px,py,AX,AY,420,AY);
+    document.getElementById('c3-p1').setAttribute('x1',px);document.getElementById('c3-p1').setAttribute('y1',py);
+    document.getElementById('c3-p1').setAttribute('x2',f1.x);document.getElementById('c3-p1').setAttribute('y2',f1.y);
+    document.getElementById('c3-f1').setAttribute('cx',f1.x);document.getElementById('c3-f1').setAttribute('cy',f1.y);
+    document.getElementById('c3-sq1').setAttribute('points',sqMark(px,py,f1.x,f1.y,8));
+    const f2=perpFoot(px,py,AX,AY,ray2EndX,ray2EndY);
+    document.getElementById('c3-p2').setAttribute('x1',px);document.getElementById('c3-p2').setAttribute('y1',py);
+    document.getElementById('c3-p2').setAttribute('x2',f2.x);document.getElementById('c3-p2').setAttribute('y2',f2.y);
+    document.getElementById('c3-f2').setAttribute('cx',f2.x);document.getElementById('c3-f2').setAttribute('cy',f2.y);
+    document.getElementById('c3-sq2').setAttribute('points',sqMark(px,py,f2.x,f2.y,8));
+    document.getElementById('c3-d1').setAttribute('x',(px+f1.x)/2+6);
+    document.getElementById('c3-d1').setAttribute('y',(py+f1.y)/2+5);
+    const r2dx=ray2EndX-AX,r2dy=ray2EndY-AY,r2l=Math.sqrt(r2dx*r2dx+r2dy*r2dy);
+    const n2x=r2dy/r2l,n2y=-r2dx/r2l;
+    document.getElementById('c3-d2').setAttribute('x',(px+f2.x)/2+n2x*14);
+    document.getElementById('c3-d2').setAttribute('y',(py+f2.y)/2+n2y*14+5);
+    // 接する円: 中心=P、半径=d1（PからAYへの垂直距離）
+    const radius=Math.sqrt((px-f1.x)**2+(py-f1.y)**2);
+    document.getElementById('c3-inscribed').setAttribute('cx',px);
+    document.getElementById('c3-inscribed').setAttribute('cy',py);
+    document.getElementById('c3-inscribed').setAttribute('r',radius);
+  }
+  document.getElementById('sl3a').addEventListener('input',draw);
+  document.getElementById('sl3t').addEventListener('input',draw);
+  draw();
+})();
+
+/* ===== 第4章 ===== */
+(function(){
+  const OCX=130,OCY=110,OR=55;
+  const sl=document.getElementById('sl4');
+  function draw(){
+    const px=+sl.value;
+    const mx=(OCX+px)/2,hr=Math.abs(px-OCX)/2;
+    document.getElementById('c4-helper').setAttribute('cx',mx);
+    document.getElementById('c4-helper').setAttribute('r',hr);
+    document.getElementById('c4-P').setAttribute('cx',px);
+    document.getElementById('c4-Plbl').setAttribute('x',px+5);
+    document.getElementById('c4-OP').setAttribute('x2',px);
+    const d=px-OCX;
+    if(d<=OR)return;
+    const cosA=OR/d,sinA=Math.sqrt(1-cosA*cosA);
+    const tx=OCX+OR*cosA,ty1=OCY-OR*sinA,ty2=OCY+OR*sinA;
+    document.getElementById('c4-t1').setAttribute('x1',px);document.getElementById('c4-t1').setAttribute('y1',OCY);
+    document.getElementById('c4-t1').setAttribute('x2',tx);document.getElementById('c4-t1').setAttribute('y2',ty1);
+    document.getElementById('c4-t2').setAttribute('x1',px);document.getElementById('c4-t2').setAttribute('y1',OCY);
+    document.getElementById('c4-t2').setAttribute('x2',tx);document.getElementById('c4-t2').setAttribute('y2',ty2);
+    document.getElementById('c4-T1').setAttribute('cx',tx);document.getElementById('c4-T1').setAttribute('cy',ty1);
+    document.getElementById('c4-T2').setAttribute('cx',tx);document.getElementById('c4-T2').setAttribute('cy',ty2);
+    document.getElementById('c4-T1l').setAttribute('x',tx-20);document.getElementById('c4-T1l').setAttribute('y',ty1-8);
+    document.getElementById('c4-T2l').setAttribute('x',tx-20);document.getElementById('c4-T2l').setAttribute('y',ty2+18);
+  }
+  sl.addEventListener('input',draw);
+  draw();
+})();
+</script>
+</body>
+</html>
